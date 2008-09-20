@@ -1,4 +1,4 @@
-#summary Using Tetra
+#summary How to use Tetra
 
 = Requirements =
 
