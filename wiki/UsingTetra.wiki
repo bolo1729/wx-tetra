@@ -8,28 +8,14 @@ In order to use Tetra, you should have the following software installed:
   * WxWidgets
   * ImageMagick
   * Tesseract OCR (optional)
-Tetra was tested on GNU/Linux.  It _might_ require a few minor changes
-in order to run on another UNIX-like platform, and _will_ require the
-changes on other platforms (esp. MS Windows).
+Tetra was tested on GNU/Linux.  It _might_ require a few minor changes in order to run on another UNIX-like platform, and _will_ require the changes on other platforms (esp. MS Windows).
 
 = Usage =
 
 Run `tetra.pl`, and you should see the main application window.
 
-Click "Manage PDFs" to add/remove PDF files to the program.
-File addition might take a while: the PDFs are converted to images,
-page-by-page, and initial boxfiles are generated (provided you have
-Tesseract OCR installed).
+Click "Manage PDFs" to add/remove PDF files to the program.  File addition might take a while: the PDFs are converted to images, page-by-page, and initial boxfiles are generated (provided you have Tesseract OCR installed).
 
-In the main window, choose the page you wish to edit.  Next, choose
-a box from the list on the left, or use the "+" and "-" buttons below
-the list to add/remove boxes.  The current box is shown in red, you
-can move/resize it using left mouse button.  Input field below
-the list of boxes always has keyboard focus, so simply type the
-characters you see in the box.  <ENTER> accepts the modifications
-and moves to the next box.
-That way, you may traverse the list of boxes by hitting <ENTER>,
-and modifying a box when necessary.
+In the main window, choose the page you wish to edit.  Next, choose a box from the list on the left, or use the "+" and "-" buttons below the list to add/remove boxes.  The current box is shown in red, you can move/resize it using left mouse button.  Input field below the list of boxes always has keyboard focus, so simply type the characters you see in the box.  <ENTER> accepts the modifications and moves to the next box. That way, you may traverse the list of boxes by hitting <ENTER>, and modifying a box when necessary.
 
-Save button writes changes in _all the modified pages_, not just the
-current one.
+Save button writes changes in _all the modified pages_, not just the current one.
