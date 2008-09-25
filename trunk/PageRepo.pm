@@ -98,7 +98,7 @@ sub addFileInternal {
 	# which are not handled correctly by Tesseract.
 
 	removeId($id);
-	my @pdf2png = ("$convert", "-density", "50x50", "-depth", "8", "$fileName", "${ttHome}p${id}.png");
+	my @pdf2png = ("$convert", "-density", "300x300", "-depth", "8", "$fileName", "${ttHome}p${id}.png");
 	system(@pdf2png);
 	move("${ttHome}p${id}.png", "${ttHome}p${id}-0.png") if (stat("${ttHome}p${id}.png"));
 
