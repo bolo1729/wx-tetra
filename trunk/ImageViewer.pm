@@ -40,7 +40,7 @@ sub new {
 
 sub repaint {
 	my $viewer = shift;
-	$viewer->{canvas}->Refresh(1);
+	$viewer->{canvas}->Refresh(0);
 }
 
 sub onPaint {
