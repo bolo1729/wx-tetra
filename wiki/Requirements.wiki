@@ -1,4 +1,5 @@
 #summary Software requirements for Tetra
+#labels Featured
 
 = MS Windows =
 
