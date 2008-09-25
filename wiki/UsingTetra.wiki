@@ -1,18 +1,16 @@
 #summary How to use Tetra
 #labels Featured
 
-= Requirements =
+= Introduction =
 
-In order to use Tetra, you should have the following software installed:
-  * Perl
-  * WxWidgets
-  * ImageMagick
-  * Tesseract OCR (optional)
-Tetra was tested on GNU/Linux.  It _might_ require a few minor changes in order to run on another UNIX-like platform, and _will_ require the changes on other platforms (esp. MS Windows).
+Tetra is a simple GUI application for editing Tesseract OCR box files.  It reads PDF files, converts them to TIF format, generates initial box files (provided that Tesseract OCR is installed), and allows basic box manipulation.
+
+GNU/Linux is the best platform for this application, but it runs under MS Windows too.
+See [Requirements] for details.
 
 = Usage =
 
-Run `tetra.pl`, and you should see the main application window.
+Run `tetra.pl` (UNIX) or `tetra.bat` (MS Windows), and you should see the main application window.
 
 Click "Manage PDFs" to add/remove PDF files to the program.  File addition might take a while: the PDFs are converted to images, page-by-page, and initial boxfiles are generated (provided you have Tesseract OCR installed).
 
