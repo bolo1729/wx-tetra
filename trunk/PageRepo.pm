@@ -21,6 +21,7 @@ use File::Basename;
 use IO::File;
 use File::Copy;
 use Tetra;
+use open ':encoding(utf8)';
 
 $PageRepo::singleton = undef;
 
