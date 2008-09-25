@@ -27,7 +27,7 @@ use Tetra;
 
 sub new {
 	my ($class, $parent, $model) = @_;
-	my $self = $class->SUPER::new($parent, -1, 'Tetra: Tesseract Training', [-1, -1], [1000, 650]);
+	my $self = $class->SUPER::new($parent, -1, 'Tetra: Tesseract Training', [-1, -1], [1000, 660]);
 	$self->init($model);
 	return $self;
 }
@@ -35,13 +35,13 @@ sub new {
 sub init {
 	my ($self, $model) = @_;
 	$self->{model} = $model;
-	$model->addListener($self);
+	# $model->addListener($self);
 
 	my $panel = Wx::Panel->new($self, -1);
 	$self->{panel} = $panel;
 
-	$self->{input} = Wx::TextCtrl->new($panel, -1, "", [10, 600], [90, 30], wxTE_PROCESS_ENTER);
-	$self->{btnNext} = Wx::Button->new($panel, -1, "Change", [110, 600], [90, 30]);
+	$self->{input} = Wx::TextCtrl->new($panel, -1, "", [10, 600], [90, -1], wxTE_PROCESS_ENTER);
+	$self->{btnNext} = Wx::Button->new($panel, -1, "Change", [110, 600], [90, -1]);
 	$self->{page} = Wx::Choice->new($panel, -1, [300, 600], [240, -1], []);
 	$self->{btnSave} = Wx::Button->new($panel, -1, "Save", [640, 600], [120, -1]);
 	$self->{btnPdf} = Wx::Button->new($panel, -1, "Manage PDFs", [770, 600], [120, -1]);
@@ -120,7 +120,7 @@ sub modelBoxSelected {
 	$self->{boxes}->SetSelection($newPos) if ((! defined $oldPos) || ($newPos != $oldPos));
 
 	my $txt = $self->{model}->getCurrentChars();
-	$self->{input}->ChangeValue($txt);
+	$self->{input}->SetValue($txt);
 	$self->{input}->SetFocus();
 	$self->{input}->SetSelection(-1, -1);
 }

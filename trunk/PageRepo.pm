@@ -19,6 +19,7 @@ use strict;
 
 use File::Basename;
 use IO::File;
+use File::Copy;
 use Tetra;
 
 $PageRepo::singleton = undef;
@@ -93,17 +94,20 @@ sub addFileInternal {
 	my $convert = "convert";
 	my $tesseract = "tesseract";
 
-	run("rm -f ${ttHome}p${id}*");
-	run("$convert -density 300x300 -depth 8 $fileName ${ttHome}p${id}.png");
-	run("mv -f ${ttHome}p${id}.png ${ttHome}p${id}-0.png") if (stat("${ttHome}p${id}.png"));
+	removeId($id);
+	my @pdf2png = ("$convert", "-density", "50x50", "-depth", "8", "$fileName", "${ttHome}p${id}.png");
+	system(@pdf2png);
+	move("${ttHome}p${id}.png", "${ttHome}p${id}-0.png") if (stat("${ttHome}p${id}.png"));
 
 	my $pages = 0;
 	opendir(DIR, $ttHome);
 	while (defined (my $pngFile = readdir(DIR))) {
 		next unless $pngFile =~ /^p${id}-(\d+)\.png/;
-		run("$convert ${ttHome}p${id}-$1.png ${ttHome}p${id}-$1.tif");
-		run("$tesseract ${ttHome}p${id}-$1.tif ${ttHome}p${id}-$1 batch.nochop makebox");
-		run("mv -f ${ttHome}p${id}-$1.txt ${ttHome}p${id}-$1.box");
+		my @png2tif = ("$convert", "${ttHome}p${id}-$1.png", "${ttHome}p${id}-$1.tif");
+		system(@png2tif);
+		my @tess = ("$tesseract", "${ttHome}p${id}-$1.tif", "${ttHome}p${id}-$1", "batch.nochop", "makebox");
+		system(@tess);
+		move("${ttHome}p${id}-$1.txt", "${ttHome}p${id}-$1.box");
 		$pages++;
 	}
 	close(DIR);
@@ -116,12 +120,25 @@ sub removeFile {
 	my ($self, $id) = @_;
 
 	my $ttHome = ttHome();
-	run("rm -f ${ttHome}p${id}*");
+	removeId($id);
 
 	delete($self->{files}{$id});
 	$self->writeIdx();
 	$self->signal($Tetra::EVT_PAGELIST_CHANGED);
 	$self->setCurrentPageIdx(0) if ($self->{currentId} == $id);
+}
+
+sub removeId {
+	my ($id) = @_;
+	opendir(DIR, ttHome());
+	while (defined (my $file = readdir(DIR))) {
+		my $base = basename($file);
+		$base =~ m/^p(\d+).*$/;
+		next unless ("$id" eq "$1");
+		my $name = ttHome() . $file;
+		print "DEBUG: deleting $name\n";
+		unlink($name);
+	}
 }
 
 sub readBoxesInternal {
@@ -393,14 +410,21 @@ sub start {
 ### Some constants: file names and paths
 
 sub ttHome {
-	my $ttHome = $ENV{HOME} . "/.tthome/";
-	stat($ttHome) || mkdir($ttHome) || die "Cannot create $ttHome\n";
+	my $ttHome;
+	if (defined $ENV{HOME}) {
+		$ttHome = $ENV{HOME} . "/.tthome/";
+	} elsif (defined $ENV{USERPROFILE}) {
+		$ttHome = $ENV{USERPROFILE} . "\\tthome\\";
+	} else {
+		die "Unsupported OS";
+	}
+	stat($ttHome) || mkdir($ttHome) || die "Cannot create $ttHome";
 	return $ttHome;
 }
 
 sub ttIndex {
 	my $ttIndex = ttHome() . "index.idx";
-	stat($ttIndex) || open(TMP, "> $ttIndex") || die "Cannot create $ttIndex\n";
+	stat($ttIndex) || open(TMP, "> $ttIndex") || die "Cannot create $ttIndex";
 	close(TMP);
 	return $ttIndex;
 }
@@ -428,7 +452,7 @@ sub signal {
 		# &{$listener->{ttEvents}{$id}}($listener) if (defined $listener->{myEvents}{$id});
 		my $event = Wx::CommandEvent->new($id, -1);
 		$event->SetClientData($data);
-		$event->StopPropagation();
+		# $event->StopPropagation();
 		$listener->AddPendingEvent($event);
 	}
 }

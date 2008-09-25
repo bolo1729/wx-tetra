@@ -40,7 +40,7 @@ sub new {
 
 sub repaint {
 	my $viewer = shift;
-	onPaint($viewer->{canvas});
+	$viewer->{canvas}->Refresh(1);
 }
 
 sub onPaint {
@@ -64,18 +64,20 @@ sub onPaint {
 }
 
 sub modelPageSelected {
-	my $viewer = shift;
+	my ($viewer, $event) = @_;
 	my $png = $viewer->{model}->{bitmap};
 	$viewer->{bitmap} = (! defined $png) ? undef :
 			Wx::Bitmap->new($png, wxBITMAP_TYPE_PNG);
 	$viewer->{rect} = undef;
 	$viewer->repaint();
+	$event->Skip(1);
 }
 
 sub modelBoxSelected {
-	my $viewer = shift;
+	my ($viewer, $event) = @_;
 	$viewer->{rect} = $viewer->{model}->getCurrentRect();
 	$viewer->repaint();
+	$event->Skip(1);
 }
 
 sub onLeftDown {

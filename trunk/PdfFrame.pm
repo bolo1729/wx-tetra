@@ -25,13 +25,13 @@ sub new {
 	my $pageRepo = shift;
 	my $self = $class->SUPER::new(@_);
 
-	my $panel = Wx::Panel->new($self, -1);
+	my $panel = Wx::Panel->new($self, -1, [-1, -1], [500, 310]);
 
 	$self->{model} = $pageRepo;
 
 	my $labelsRef = $self->getFileLabels();
 
-	$self->{txt} = Wx::StaticText->new($panel, 1, "Current PDF files:", [10, 10]);
+	$self->{txt} = Wx::StaticText->new($panel, 1, "Current PDF files:", [10, 10], [-1, -1]);
 	$self->{list} = Wx::ListBox->new($panel, 2, [10, 30], [480, 200], $labelsRef);
 	$self->{btnAdd} = Wx::Button->new($panel, 3, "+", [10, 250], [50, -1]);
 	$self->{btnRemove} = Wx::Button->new($panel, 4, "-", [70, 250], [50, -1]);
@@ -92,7 +92,7 @@ sub newFrame {
 	my $class = shift;
 	my $pageRepo = shift;
 	my $parent = shift || undef;
-	my $frame = PdfFrame->new($pageRepo, $parent, -1, 'PDF files', [-1, -1], [500, 300]);
+	my $frame = PdfFrame->new($pageRepo, $parent, -1, 'PDF files', [-1, -1], [500, 310]);
 	return $frame;
 }
 
