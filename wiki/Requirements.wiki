@@ -1,0 +1,23 @@
+#summary Software requirements for Tetra
+
+= MS Windows =
+
+Tetra is written in Perl using wxWidgets, both of which are _theoretically_ available on all the most popular platforms.  Nevertheless, GNU/Linux is the most natural environment for such an application, and making it run on MS Windows requires a bit of effort.  Consider using [http://code.google.com/p/bbtesseract/ bbtesseract] instead.
+
+If you're still reading this, the list of requirements follows:
+  * [http://downloads.activestate.com/ActivePerl/Windows/5.8/ ActivePerl 5.8].  Preferably the most recent build of 5.8.  Don't install version 5.10, since there is no corresponding WxPerl at the time of writing.
+  * [http://wxperl.sourceforge.net/download.html wxPerl 0.26 for ActivePerl 8xx with Unicode].  After unpacking, follow the instructions in the README file (one command: `ppm install Wx-0.26.ppd`).
+  * [http://www.wxwidgets.org/downloads/ wxWidgets 2.6 or higher].  Simply install the latest version (2.8 is OK).
+  * [http://www.imagemagick.org/www/download.html ImageMagick].  Simply install the latest version.
+  * [http://sourceforge.net/projects/ghostscript/ GPL Ghostscript].  Simply install the latest version.
+
+This version cannot properly use Tesseract OCR, so initial boxes will not be created during document import.
+
+= UNIX =
+
+Install ImageMagick and wxWidgets (2.6 or higher) with Perl bindings.  For Fedora, the following will suffice:
+{{{
+sudo yum install ImageMagick perl-Wx
+}}}
+Also, `tesseract` should be in your `PATH` env. variable (otherwise initial boxes will not 
+be created during document import).
