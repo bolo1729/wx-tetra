@@ -94,6 +94,9 @@ sub addFileInternal {
 	my $convert = "convert";
 	my $tesseract = "tesseract";
 
+	# Two-step conversion: PDF -> PNG -> TIF.  This prevents creating multi-page TIFs,
+	# which are not handled correctly by Tesseract.
+
 	removeId($id);
 	my @pdf2png = ("$convert", "-density", "50x50", "-depth", "8", "$fileName", "${ttHome}p${id}.png");
 	system(@pdf2png);
@@ -134,9 +137,9 @@ sub removeId {
 	while (defined (my $file = readdir(DIR))) {
 		my $base = basename($file);
 		$base =~ m/^p(\d+).*$/;
-		next unless ("$id" eq "$1");
+		next unless ((defined $1) && ("$id" eq "$1"));
 		my $name = ttHome() . $file;
-		print "DEBUG: deleting $name\n";
+		# print "DEBUG: deleting $name\n";
 		unlink($name);
 	}
 }
