@@ -1,0 +1,10 @@
+#summary Release notes
+
+== 0.0.3 ==
+UTF-8 encoding enforced.
+
+== 0.0.2 ==
+Port to MS Windows.
+
+== 0.0.1 ==
+Initial version.  Works under GNU/Linux.
